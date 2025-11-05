@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Choose a Slot | SlotSwapper</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f8fa;
+      margin: 0;
+      padding: 40px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1e293b;
+      margin-bottom: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    th {
+      background-color: #f1f5f9;
+      text-transform: uppercase;
+      font-size: 14px;
+      color: #334155;
+    }
+
+    td {
+      font-size: 15px;
+      color: #475569;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 30px;
+      color: #94a3b8;
+      font-size: 16px;
+    }
+
+    .btn {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #2563eb;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .back-btn:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <a href="/api/swappable-spots" class="back-btn"> Back to Marketplace</a>
+  <h1>Select One of Your Swappable Events</h1>
+
+  <% if (myEvents && myEvents.length > 0) { %>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% myEvents.forEach(event => { %>
+          <tr>
+            <td><%= event.title %></td>
+            <td><%= new Date(event.start_time).toLocaleString() %></td>
+            <td><%= new Date(event.end_time).toLocaleString() %></td>
+            <td><%= event.status %></td>
+            <td>
+              <form action="/api/request-swap" method="POST">
+                <input type="hidden" name="mySlotId" value="<%= event.id %>">
+                <input type="hidden" name="theirSlotId" value="<%= theirSlotId %>">
+                <button type="submit" class="btn">Offer This Slot</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <div class="empty">
+      You don't have any swappable slots right now.  
+      <br />
+      <a href="/" style="color:#2563eb;">Go to your dashboard</a> and make one of your events swappable.
+    </div>
+  <% } %>
+</body>
+</html>

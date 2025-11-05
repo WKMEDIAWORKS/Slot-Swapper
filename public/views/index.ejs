@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SlotSwapper Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f8fa;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #1e293b;
+      color: white;
+      padding: 15px 30px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    header .buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    header button {
+      background-color: #3b82f6;
+      border: none;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+
+    header button:hover {
+      background-color: #2563eb;
+    }
+
+    main {
+      padding: 40px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    th {
+      background-color: #f1f5f9;
+      text-transform: uppercase;
+      font-size: 14px;
+      color: #334155;
+    }
+
+    td {
+      font-size: 15px;
+      color: #475569;
+    }
+
+    .status {
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .status.busy {
+      color: #ef4444;
+    }
+
+    .status.swappable {
+      color: #22c55e;
+    }
+
+    .status.pending {
+      color: #eab308;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 30px;
+      color: #94a3b8;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>SlotSwapper</h1>
+    <div class="buttons">
+      <button onclick="window.location.href='/add-event'">+ Add Event</button>
+      <button onclick="window.location.href='/api/swappable-spots'">Marketplace</button>
+      <button onclick="window.location.href='/requests'">Swap Requests</button>
+    </div>
+  </header>
+
+  <main>
+    <% if (events && events.length > 0) { %>
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% events.forEach(event => { %>
+            <tr>
+              <td><%= event.title %></td>
+              <td><%= new Date(event.start_time).toLocaleString() %></td>
+              <td><%= new Date(event.end_time).toLocaleString() %></td>
+              <td>
+                <span class="status 
+                  <%= event.status === 'BUSY' ? 'busy' : event.status === 'SWAPPABLE' ? 'swappable' : 'pending' %>">
+                  <%= event.status %>
+                </span>
+              </td>
+              <td>
+                <% if (event.status === 'BUSY') { %>
+                  <form action="/api/events/<%= event.id %>/make-swappable" method="POST" style="display:inline;">
+                    <button type="submit" style="background:#22c55e; color:white; border:none; padding:6px 10px; border-radius:4px; cursor:pointer;">
+                      Make Swappable
+                    </button>
+                  </form>
+                <% } else { %>
+                  <span style="color:#64748b; font-size:14px;">—</span>
+                <% } %>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <div class="empty">No events yet. Click "Add Event" to create one.</div>
+    <% } %>
+  </main>
+</body>
+</html>

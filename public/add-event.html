@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Event | SlotSwapper</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f8fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 40px 50px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 400px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1e293b;
+      margin-bottom: 25px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #475569;
+      font-size: 14px;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 15px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #3b82f6;
+    }
+
+    button {
+      background-color: #3b82f6;
+      color: white;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      padding: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2563eb;
+    }
+
+    .back {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .back a {
+      color: #3b82f6;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Add New Event</h1>
+
+    <form action="/submit-event" method="POST">
+      <label for="title">Title</label>
+      <input type="text" id="title" name="title" placeholder="e.g., Team Meeting" required />
+
+      <label for="date">Date</label>
+      <input type="date" id="date" name="date" required />
+
+      <label for="start_time">Start Time</label>
+      <input type="time" id="start_time" name="start_time" required />
+
+      <label for="end_time">End Time</label>
+      <input type="time" id="end_time" name="end_time" required />
+
+      <button type="submit">Add Event</button>
+    </form>
+
+    <div class="back">
+      <a href="/"> Back to Dashboard</a>
+    </div>
+  </div>
+</body>
+</html>

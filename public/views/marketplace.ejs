@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marketplace | SlotSwapper</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f8fa;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #1e293b;
+      color: white;
+      padding: 15px 30px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    header .buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    header button {
+      background-color: #3b82f6;
+      border: none;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+
+    header button:hover {
+      background-color: #2563eb;
+    }
+
+    main {
+      padding: 40px;
+    }
+
+    h2 {
+      color: #1e293b;
+      margin-bottom: 25px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    th {
+      background-color: #f1f5f9;
+      text-transform: uppercase;
+      font-size: 14px;
+      color: #334155;
+    }
+
+    td {
+      font-size: 15px;
+      color: #475569;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 30px;
+      color: #94a3b8;
+      font-size: 16px;
+    }
+
+    .request-btn {
+      background-color: #22c55e;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .request-btn:hover {
+      background-color: #16a34a;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #3b82f6;
+      font-weight: 500;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>SlotSwapper Marketplace</h1>
+  </header>
+
+  <main>
+    <h2>Available Swappable Slots</h2>
+
+    <% if (events && events.length > 0) { %>
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Owner</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% events.forEach(event => { %>
+            <tr>
+              <td><%= event.title %></td>
+              <td><%= new Date(event.start_time).toLocaleString() %></td>
+              <td><%= new Date(event.end_time).toLocaleString() %></td>
+              <td><%= event.name || "Unknown User" %></td>
+              <td>
+
+                <form action="/api/swap-request" method="POST" style="display:inline;">
+                  <input type="hidden" name="theirSlotId" value="<%= event.id %>" />
+                  <button type="submit" class="request-btn">Request Swap</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <div class="empty">No swappable slots are available right now.</div>
+    <% } %>
+
+    <a href="/" class="back-link"> Back to Dashboard</a>
+  </main>
+</body>
+</html>

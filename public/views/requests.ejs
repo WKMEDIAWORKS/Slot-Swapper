@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Swap Requests</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f8fa;
+      margin: 0;
+      padding: 40px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #1e293b;
+    }
+    h2 {
+      color: #334155;
+      margin-top: 40px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    th {
+      background: #f1f5f9;
+      text-transform: uppercase;
+      font-size: 13px;
+      color: #475569;
+    }
+    td {
+      font-size: 15px;
+      color: #475569;
+    }
+    .status {
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    .status.PENDING { color: #eab308; }
+    .status.ACCEPTED { color: #22c55e; }
+    .status.REJECTED { color: #ef4444; }
+    .btn {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .btn.reject {
+      background: #ef4444;
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #3b82f6;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <h1>Swap Requests</h1>
+
+  <h2>Incoming Requests</h2>
+  <% if (incoming.length > 0) { %>
+    <table>
+      <thead>
+        <tr>
+          <th>Requester</th>
+          <th>Their Slot</th>
+          <th>Your Slot</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% incoming.forEach(req => { %>
+          <tr>
+            <td><%= req.requester_name %></td>
+            <td><%= req.their_slot %></td>
+            <td><%= req.your_slot %></td>
+            <td><span class="status <%= req.status %>"><%= req.status %></span></td>
+            <td>
+              <% if (req.status === "PENDING") { %>
+                <form action="/api/swap-response/<%= req.id %>" method="POST" style="display:inline;">
+                  <input type="hidden" name="accepted" value="true">
+                  <button class="btn">Accept</button>
+                </form>
+                <form action="/api/swap-response/<%= req.id %>" method="POST" style="display:inline;">
+                  <input type="hidden" name="accepted" value="false">
+                  <button class="btn reject">Reject</button>
+                </form>
+              <% } else { %>
+                <span>—</span>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <p>No incoming swap requests.</p>
+  <% } %>
+
+  <h2>Outgoing Requests</h2>
+  <% if (outgoing.length > 0) { %>
+    <table>
+      <thead>
+        <tr>
+          <th>Receiver</th>
+          <th>Your Slot</th>
+          <th>Their Slot</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% outgoing.forEach(req => { %>
+          <tr>
+            <td><%= req.receiver_name %></td>
+            <td><%= req.your_slot %></td>
+            <td><%= req.their_slot %></td>
+            <td><span class="status <%= req.status %>"><%= req.status %></span></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <p>No outgoing swap requests.</p>
+  <% } %>
+  <div class="back">
+    <a href="/" class="back-link"> Back to Dashboard</a>
+  </div>
+</body>
+</html>

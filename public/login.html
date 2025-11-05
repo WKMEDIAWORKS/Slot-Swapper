@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f1f5f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 400px;
+      background: white;
+      padding: 35px 40px;
+      border-radius: 14px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 28px;
+      color: #111;
+      font-size: 26px;
+      font-weight: 600;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #333;
+      font-weight: 500;
+    }
+
+    input {
+      width: 90%;
+      padding: 12px;
+      margin-bottom: 18px;
+      border-radius: 8px;
+      border: 1px solid #d0d7df;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+
+    input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 6px rgba(59,130,246,0.4);
+    }
+
+    .login-btn {
+      width: 95%;
+      padding: 12px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 15px;
+      transition: 0.25s;
+    }
+
+    .login-btn:hover {
+      background: #1d4ed8;
+    }
+
+    .bottom-text {
+      margin-top: 16px;
+      font-size: 14px;
+      color: #444;
+    }
+
+    .bottom-text a {
+      color: #2563eb;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .bottom-text a:hover {
+      text-decoration: underline;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Login</h1>
+
+    <form action="/submit-login" method="POST">
+      <label>Email</label>
+      <input type="email" name="email" required />
+
+      <label>Password</label>
+      <input type="password" name="password" required />
+
+      <button type="submit" class="login-btn">Login</button>
+    </form>
+
+    <p class="bottom-text">
+      Don't have an account? <a href="/register">Register</a>
+    </p>
+
+  </div>
+
+</body>
+</html>
