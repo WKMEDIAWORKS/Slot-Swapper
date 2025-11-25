@@ -21,15 +21,21 @@ app.use(cookieParser());
 
 
 
-const db = new pg.Client({
+const { Pool } = pg;
+
+ const db = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
         rejectUnauthorized: false,
     },
+    max: 10,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 5000,
 });
 
-db.connect();
-
+db.on("error", (err) => {
+    console.error("Unexpected PG error from idle client: ", err);
+});
 
 app.set("views", "./public/views");
 app.set("view engine", "ejs");
